@@ -1,4 +1,5 @@
 import os
+import sys
 from dotenv import load_dotenv
 from google import genai
 
@@ -6,7 +7,12 @@ load_dotenv()
 api_key = os.environ.get("GEMINI_API_KEY")
 client = genai.Client(api_key=api_key)
 model  = "gemini-2.0-flash-001"
-contents = "Now you are born from my seed, little boy. Greet your master..."
+
+if len(sys.argv) < 2:
+    print("I'm still waiting your orders, master...")
+    sys.exit(1)
+
+contents = sys.argv[1]
 
 response_object = client.models.generate_content(model= model ,contents=contents)
 
